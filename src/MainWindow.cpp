@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     this->setCentralWidget(mainView);
     this->centralWidget()->setStyleSheet(
-            "border-image:url(\"../ressources/backt.png\") 0 0 0 0 stretch stretch;" );
+            "border-image:url(\"ressources/backt.png\") 0 0 0 0 stretch stretch;" );
     this->setWindowTitle("My main window");
     this->resize(1920, 1080);
 

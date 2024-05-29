@@ -3,9 +3,11 @@
 //
 
 #include "../include/Enemy1.h"
-
+#include <QDebug>
 Enemy1::Enemy1(qreal x, qreal y, qreal xmin, qreal xmax, QGraphicsItem* parent) : Entity(parent){
-    QImage image("../ressources/enemy1/walk/walk_1.png");
+    QString imgPath = "ressources/enemy1/walk/walk_1.png";
+    QImage image(imgPath);
+
     QImage imageconv = image.scaled(100, 100, Qt::KeepAspectRatio);
     this->setPixmap(QPixmap::fromImage(imageconv));
     this->setPos(x+1,y);
@@ -56,12 +58,12 @@ void Enemy1::animation(){
     if(animationState==5){
         animationState=0;
     }
-
-    std::string test = "../ressources/enemy1/walk/walk_"+std::to_string(animationState+1)+".png";
+    std::string test = "ressources/enemy1/walk/walk_"+std::to_string(animationState+1)+".png";
     QString qstr = QString::fromStdString(test);
     QImage image(qstr);
     QImage imageconv = image.scaled(100, 100, Qt::KeepAspectRatio).mirrored(lookingDirection,false);
     this->setPixmap(QPixmap::fromImage(imageconv));
+
 }
 
 

@@ -9,11 +9,16 @@
 #include <QBrush>
 
 
-class PlatformClass : public QObject, public QGraphicsRectItem{
-    Q_OBJECT
+class PlatformClass : public QObject, public QGraphicsRectItem {
+Q_OBJECT
 public:
-    PlatformClass(qreal x=0, qreal y=0, qreal w=0, qreal h=0, QGraphicsItem* parent = nullptr);
+    PlatformClass(qreal x = 0, qreal y = 0, qreal w = 0, qreal h = 0, QGraphicsItem *parent = nullptr);
+
     virtual ~PlatformClass();
+
+    QRectF globalBoundingRect() {
+        return mapRectToScene(boundingRect());
+    }
 };
 
 

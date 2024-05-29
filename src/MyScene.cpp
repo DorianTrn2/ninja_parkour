@@ -3,7 +3,7 @@
 
 MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(parent) {
     this->view = newView;
-    QPixmap* platfo = new QPixmap("../ressources/textures/brick2.png");
+    QPixmap* platfo = new QPixmap("ressources/textures/brick2.png");
     this->platfor = new QBrush(*platfo);
     addPlatforms(-50,-300,50,1380);
     addPlatforms(0,500,1000,580);
@@ -28,7 +28,9 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
 
 
 
-    addMovingPlatforms(450, 450, 50, 50, 20, 600);
+    addMovingPlatforms(450, 450, 100, 50, 2, 600);
+    addMovingPlatforms(2400, 600, 100, 50, 3, 2600);
+    addMovingPlatforms(3200, 550, 100, 20, 3, 3700);
 
     setPlatformsToScene();
 
@@ -38,7 +40,7 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
     setSpikesToScene();
 
     vide = new VoidClass(0,1080, 10000, 300);
-    QPixmap* videtext = new QPixmap("../ressources/textures/black.png");
+    QPixmap* videtext = new QPixmap("ressources/textures/black.png");
     QBrush* videbrush = new QBrush(*videtext);
     vide->setBrush(*videbrush);
     this->addItem(vide);
@@ -47,7 +49,7 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
     end->setPos(7500, 460);
     this->addItem(end);
 
-    QImage image("../ressources/ninja/idle/idle_1.png");
+    QImage image("ressources/ninja/idle/idle_1.png");
     QImage imageconv = image.scaled(100, 100, Qt::KeepAspectRatio).mirrored(true,false);
     this->p1 = new Player();
     this->p1->setPixmap(QPixmap::fromImage(imageconv));
@@ -64,6 +66,7 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
 }
 
 void MyScene::update(){
+
     auto start = std::chrono::high_resolution_clock::now();
 
     this->chrono += 5;
@@ -104,7 +107,7 @@ void MyScene::update(){
             }
         }
         else if (gameOn) {
-            menu = new QGraphicsPixmapItem(QPixmap("../ressources/textures/Deathmenu.png"));
+            menu = new QGraphicsPixmapItem(QPixmap("ressources/textures/deathmenu.png"));
             QPointF topLeft = view->mapToScene(0, 0);
             menu->setPos(topLeft.x() + 920/2,topLeft.y()+500/2);
             addItem(menu);
@@ -112,7 +115,7 @@ void MyScene::update(){
             timer->stop();
         }
         else {
-            menu = new QGraphicsPixmapItem(QPixmap("../ressources/textures/winmenu.png"));
+            menu = new QGraphicsPixmapItem(QPixmap("ressources/textures/winmenu.png"));
             QPointF topLeft = view->mapToScene(0, 0);
             menu->setPos(topLeft.x() + 920/2,topLeft.y()+500/2);
             addItem(menu);
@@ -127,6 +130,7 @@ void MyScene::update(){
     auto end_chrono = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> float_ms = end_chrono - start;
     qDebug() << "lag : " << float_ms.count() << "ms";
+    qDebug()<<p1->x();
 }
 void MyScene::setupEnemies(){
     addEnemies(550, 450, 550, 550);
@@ -276,7 +280,7 @@ void MyScene::Respawn(){
 
     }
     setupEnemies();
-    QImage image("../ressources/ninja/idle/idle_1.png");
+    QImage image("ressources/ninja/idle/idle_1.png");
     QImage imageconv = image.scaled(100, 100, Qt::KeepAspectRatio);
     this->p1 = new Player();
     this->p1->setPixmap(QPixmap::fromImage(imageconv));

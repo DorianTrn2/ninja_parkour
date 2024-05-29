@@ -61,7 +61,7 @@ void Entity::collisionDetection() {
         PlatformClass *testfoot = dynamic_cast<PlatformClass *>(foot);
         if (testfoot) {
             // Réglage de la position verticale et des indicateurs de collision
-            this->setPos(this->x(), testfoot->rect().y() - 89);
+            this->setPos(this->x(), testfoot->globalBoundingRect().y() - 89);
             this->OnFloor = true;
             this->verticalVelocity = 0;
         }
@@ -71,7 +71,7 @@ void Entity::collisionDetection() {
     for (QGraphicsItem *topItem : top->collidingItems()) {
         PlatformClass *testTop = dynamic_cast<PlatformClass *>(topItem);
         if (testTop) {
-            this->setY(testTop->rect().bottom() + 1);
+            this->setY(testTop->globalBoundingRect().bottom() + 1);
             this->collideTop = true;
         }
     }
@@ -80,7 +80,7 @@ void Entity::collisionDetection() {
     for (QGraphicsItem *leftItem : left->collidingItems()) {
         PlatformClass *testLeft = dynamic_cast<PlatformClass *>(leftItem);
         if (testLeft) {
-            this->setX(testLeft->rect().right());
+            this->setX(testLeft->globalBoundingRect().right());
             this->collideLeft = true;
             return;
         }
@@ -90,7 +90,7 @@ void Entity::collisionDetection() {
     for (QGraphicsItem *rightItem : right->collidingItems()) {
         PlatformClass *testRight = dynamic_cast<PlatformClass *>(rightItem);
         if (testRight) {
-            this->setX(testRight->rect().left() - 79);
+            this->setX(testRight->globalBoundingRect().left() - 79);
             this->collideRight = true;
             return;
         }

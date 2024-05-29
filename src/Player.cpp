@@ -104,7 +104,7 @@ void Player::animation(){
         }
     }
 
-    std::string test = "../ressources/ninja/"+temp+"/"+temp+"_"+std::to_string(animationState+1)+".png";
+    std::string test = "ressources/ninja/"+temp+"/"+temp+"_"+std::to_string(animationState+1)+".png";
     QString qstr = QString::fromStdString(test);
     QImage image(qstr);
     QImage imageconv = image.scaled(100, 100, Qt::KeepAspectRatio).mirrored(lookingDirection,false);
