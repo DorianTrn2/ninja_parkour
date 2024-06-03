@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->setCentralWidget(mainView);
     this->centralWidget()->setStyleSheet(
             "border-image:url(\"ressources/backt.png\") 0 0 0 0 stretch stretch;" );
-    this->setWindowTitle("My main window");
+    this->setWindowTitle("Ninja Parkour");
     this->resize(1920, 1080);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 }
 
 MainWindow::~MainWindow(){
-
+    delete mainScene;
+    delete mainView;
+    delete helpMenu;
 }
 
 void MainWindow::slot_aboutMenu(){

@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 
 PlatformClass::PlatformClass(qreal x, qreal y, qreal w, qreal h,QGraphicsItem* parent) : QGraphicsRectItem(x,y,w,h,parent){
+
 }
 
 PlatformClass::~PlatformClass(){

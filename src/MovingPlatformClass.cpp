@@ -2,6 +2,7 @@
 // Created by doria on 01/06/2022.
 //
 #include "../include/MovingPlatformClass.h"
+#include "MyScene.h"
 #include <QDebug>
 
 MovingPlatformClass::MovingPlatformClass(qreal x, qreal y, qreal w, qreal h, qreal speed, qreal xmax, QGraphicsItem* parent)
@@ -9,7 +10,6 @@ MovingPlatformClass::MovingPlatformClass(qreal x, qreal y, qreal w, qreal h, qre
 }
 
 MovingPlatformClass::~MovingPlatformClass() {
-    delete this;
 }
 
 void MovingPlatformClass::MovePlatform() {
