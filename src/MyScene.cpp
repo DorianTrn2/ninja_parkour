@@ -5,6 +5,7 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
     this->view = newView;
     QPixmap* platfo = new QPixmap("ressources/textures/brick2.png");
     this->platfor = new QBrush(*platfo);
+    delete platfo;
     addPlatforms(-50,-300,50,1380);
     addPlatforms(0,500,1000,580);
     addPlatforms(1300,500,200,580);
@@ -32,12 +33,10 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
     addMovingPlatforms(2400, 600, 100, 50, 3, 2600);
     addMovingPlatforms(3200, 550, 100, 20, 3, 3700);
 
-    setPlatformsToScene();
 
     addSpikes(700, 500);
     addSpikes(2150, 480);
     addSpikes(7000, 600);
-    setSpikesToScene();
 
     vide = new VoidClass(0,1080, 10000, 300);
     QPixmap* videtext = new QPixmap("ressources/textures/black.png");
@@ -98,7 +97,7 @@ void MyScene::update(){
         }
         auto end_chrono2 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> float_ms2 = end_chrono2 - start;
-        qDebug() << "lag2 : " << float_ms2.count() << "ms";
+        //qDebug() << "lag2 : " << float_ms2.count() << "ms";
 
         if (p1->isAlive) {
             p1->update();
@@ -123,14 +122,14 @@ void MyScene::update(){
             endtext->setPos(450, 70);
             QColor* col = new QColor(255,255,255);
             endtext->setDefaultTextColor(*col);
+            delete col;
             endtext->setScale(10);
             timer->stop();
         }
     }
     auto end_chrono = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> float_ms = end_chrono - start;
-    qDebug() << "lag : " << float_ms.count() << "ms";
-    qDebug()<<p1->x();
+    //qDebug() << "lag : " << float_ms.count() << "ms";
 }
 void MyScene::setupEnemies(){
     addEnemies(550, 450, 550, 550);
@@ -143,6 +142,7 @@ void MyScene::addPlatforms(qreal x, qreal y, qreal w, qreal h){
     plat->setBrush(*platfor);
     plat->setPen(Qt::NoPen);
     this->platforms.push_back(plat);
+    this->addItem(plat);
 }
 
 void MyScene::addMovingPlatforms(qreal x, qreal y, qreal w, qreal h, qreal speed, qreal xmax){
@@ -151,6 +151,7 @@ void MyScene::addMovingPlatforms(qreal x, qreal y, qreal w, qreal h, qreal speed
     plat->setPen(Qt::NoPen);
     this->platforms.push_back(plat);
     this->movingplatforms.push_back(plat);
+    this->addItem(plat);
 }
 
 void MyScene::addEnemies(qreal x, qreal y, qreal xmin, qreal xmax){
@@ -160,23 +161,15 @@ void MyScene::addEnemies(qreal x, qreal y, qreal xmin, qreal xmax){
 }
 
 
-void MyScene::setPlatformsToScene(){
-    for(QGraphicsItem* temp : this->platforms){
-        this->addItem(temp);
-    }
-}
 
 void MyScene::addSpikes(qreal x, qreal y){
     SpikesClass* spik = new SpikesClass();
     spik->setPos(x,y-45);
     this->spikes.push_back(spik);
+    this->addItem(spik);
+
 }
 
-void MyScene::setSpikesToScene(){
-    for(QGraphicsItem* temp : this->spikes){
-        this->addItem(temp);
-    }
-}
 
 
 void MyScene::keyPressEvent(QKeyEvent* event){
@@ -268,12 +261,12 @@ void MyScene::keyReleaseEvent(QKeyEvent* event){
 void MyScene::Respawn(){
     this->chrono = 0;
     delete this->p1;
-    qDebug() << enemies;
+    //qDebug() << enemies;
 
     for(Enemy1* enem : this->enemies){
         enem->isAlive = false;
-        qDebug() << enem;
-        qDebug() << enem->isAlive;
+        //qDebug() << enem;
+        //qDebug() << enem->isAlive;
         this->removeItem(enem);
         enemies.pop_back();
         enem->update();
@@ -290,6 +283,26 @@ void MyScene::Respawn(){
     this->chrono = 0 ;
 }
 
+
 MyScene::~MyScene() {
+    for (QGraphicsItem *platform : this->platforms) {
+        removeItem(platform);
+        delete platform;
+    }
+    for (QGraphicsItem *spike : this->spikes) {
+        removeItem(spike);
+        delete spike;
+    }
+    for (Entity *e : this->enemies) {
+        removeItem(e);
+        delete e;
+    }
+
+    delete p1;
+    delete timer;
+    delete end;
+    delete vide;
+    delete platfor;
+    delete menu;
 
 }

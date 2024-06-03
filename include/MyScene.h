@@ -50,9 +50,7 @@ public:
     void addPlatforms(qreal x, qreal y, qreal w, qreal h);
     void addMovingPlatforms(qreal x, qreal y, qreal w, qreal h, qreal speed, qreal xmax);
     void addEnemies(qreal x, qreal y, qreal xmin, qreal xmax);
-    void setPlatformsToScene();
     void addSpikes(qreal x, qreal y);
-    void setSpikesToScene();
     void setupEnemies();
     MyScene(QGraphicsView* newView, QObject* parent = nullptr);
     void Respawn();
