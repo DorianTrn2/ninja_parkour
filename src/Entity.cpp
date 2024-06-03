@@ -124,5 +124,8 @@ void Entity::movements(){
 }
 
 Entity::~Entity(){
-
+    delete bottom;
+    delete top;
+    delete right;
+    delete left;
 }
