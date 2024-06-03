@@ -1,7 +1,3 @@
-//
-// Created by doria on 30/05/2024.
-//
-
 #include "UnitTesting.h"
 
 
@@ -15,7 +11,6 @@ void UnitTesting::initTestCase() {
 void UnitTesting::testInitialization() {
     QVERIFY(scene->p1 != nullptr);
 
-    // Check if platforms are added (assuming there's a way to count platforms)
     QVERIFY(scene->items().size() > 0);
 }
 
