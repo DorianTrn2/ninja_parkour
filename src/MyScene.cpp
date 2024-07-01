@@ -1,5 +1,4 @@
 #include "../include/MyScene.h"
-#include <chrono>
 
 MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(parent) {
     this->view = newView;
@@ -66,75 +65,97 @@ MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(paren
 
 void MyScene::update(){
 
-    auto start = std::chrono::high_resolution_clock::now();
-
     this->chrono += 5;
     if(gameOn) {
 
         if (p1->collidesWithItem(end)) {
-            p1->isAlive = false;
-            this->gameOn = false;
+            endGame();
         }
-        for(MovingPlatformClass* temp : this->movingplatforms){
-            temp->MovingPlatformClass::MovePlatform();
-        }
+
+        movePlatforms();
+
         if(!this->enemies.isEmpty()){
-        for(Enemy1* enem : this->enemies) {
-            enem->update();
-            if(p1->collidesWithItem(enem)){
-                p1->isAlive = false;
-            }
-            if(this->Hit != nullptr){
-                if(enem->collidesWithItem(Hit)) {
-                    enem->isAlive = false;
-                    this->removeItem(enem);
-                    enemies.removeOne(enem);
-                    delete enem;
-                    //enem->setPos(0,0);
-                    }
-                }
-            }
+            entitiesLogic();
         }
-        auto end_chrono2 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> float_ms2 = end_chrono2 - start;
-        //qDebug() << "lag2 : " << float_ms2.count() << "ms";
 
         if (p1->isAlive) {
-            p1->update();
-            for (QGraphicsView *x : this->views()) {
-                x->centerOn(p1);
-            }
+            playerUpdate();
         }
         else if (gameOn) {
-            menu = new QGraphicsPixmapItem(QPixmap("ressources/textures/deathmenu.png"));
-            QPointF topLeft = view->mapToScene(0, 0);
-            menu->setPos(topLeft.x() + 920/2,topLeft.y()+500/2);
-            addItem(menu);
-            gameOn = false;
-            timer->stop();
+            deathMenu();
         }
         else {
-            menu = new QGraphicsPixmapItem(QPixmap("ressources/textures/winmenu.png"));
-            QPointF topLeft = view->mapToScene(0, 0);
-            menu->setPos(topLeft.x() + 920/2,topLeft.y()+500/2);
-            addItem(menu);
-            QGraphicsTextItem* endtext = new QGraphicsTextItem(QString::number(this->chrono), menu);
-            endtext->setPos(450, 70);
-            QColor* col = new QColor(255,255,255);
-            endtext->setDefaultTextColor(*col);
-            delete col;
-            endtext->setScale(10);
-            timer->stop();
+            winMenu();
         }
     }
-    auto end_chrono = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> float_ms = end_chrono - start;
-    //qDebug() << "lag : " << float_ms.count() << "ms";
 }
+
+void MyScene::winMenu(){
+    menu = new QGraphicsPixmapItem(QPixmap("ressources/textures/winmenu.png"));
+    QPointF topLeft = view->mapToScene(0, 0);
+    menu->setPos(topLeft.x() + 920/2,topLeft.y()+500/2);
+    addItem(menu);
+    QGraphicsTextItem* endtext = new QGraphicsTextItem(QString::number(this->chrono), menu);
+    endtext->setPos(450, 70);
+    QColor* col = new QColor(255,255,255);
+    endtext->setDefaultTextColor(*col);
+    delete col;
+    endtext->setScale(10);
+    timer->stop();
+}
+
+void MyScene::deathMenu(){
+    menu = new QGraphicsPixmapItem(QPixmap("ressources/textures/deathmenu.png"));
+    QPointF topLeft = view->mapToScene(0, 0);
+    menu->setPos(topLeft.x() + 920/2,topLeft.y()+500/2);
+    addItem(menu);
+    gameOn = false;
+    timer->stop();
+}
+
+void MyScene::playerUpdate(){
+    p1->update();
+    for (QGraphicsView *x : this->views()) {
+        x->centerOn(p1);
+    }
+}
+
+void MyScene::endGame(){
+    p1->isAlive = false;
+    this->gameOn = false;
+}
+
+void MyScene::movePlatforms(){
+    for(MovingPlatformClass* temp : this->movingplatforms){
+        temp->MovingPlatformClass::MovePlatform();
+    }
+}
+
+void MyScene::entitiesLogic(){
+    for(Enemy1* enem : this->enemies) {
+        enem->update();
+        if(p1->collidesWithItem(enem)){
+            p1->isAlive = false;
+        }
+        if(this->Hit != nullptr){
+            if(enem->collidesWithItem(Hit)) {
+                killEnemy(enem);
+            }
+        }
+    }
+}
+
+void MyScene::killEnemy(Enemy1* enem){
+    enem->isAlive = false;
+    this->removeItem(enem);
+    enemies.removeOne(enem);
+    delete enem;
+}
+
 void MyScene::setupEnemies(){
-    addEnemies(550, 450, 550, 550);
-    addEnemies(5360,550, 5360, 5700);
-    addEnemies(5700,550, 5700, 6100);
+    addSlowEnemies(550, 450, 550, 550);
+    addFastEnemies(5360,550, 5360, 5700);
+    addSlowEnemies(5700,550, 5700, 6100);
 }
 
 void MyScene::addPlatforms(qreal x, qreal y, qreal w, qreal h){
@@ -154,12 +175,20 @@ void MyScene::addMovingPlatforms(qreal x, qreal y, qreal w, qreal h, qreal speed
     this->addItem(plat);
 }
 
-void MyScene::addEnemies(qreal x, qreal y, qreal xmin, qreal xmax){
-    Enemy1* ene = new Enemy1(x,y,xmin, xmax);
+void MyScene::addSlowEnemies(qreal x, qreal y, qreal xmin, qreal xmax){
+    Enemy1* ene = new Enemy1Slow(x,y,xmin, xmax);
     this->addItem(ene);
     this->enemies.push_back(ene);
 }
 
+void MyScene::addFastEnemies(qreal x, qreal y, qreal xmin, qreal xmax){
+    Enemy1* ene = new Enemy1Fast(x,y,xmin, xmax);
+    this->addItem(ene);
+    this->enemies.push_back(ene);
+}
+void MyScene::addEnemies(qreal x, qreal y, qreal xmin, qreal xmax){
+    addSlowEnemies(x,y,xmin,xmax);
+}
 
 
 void MyScene::addSpikes(qreal x, qreal y){

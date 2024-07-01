@@ -8,6 +8,8 @@
 #include "../include/MyScene.h"
 #include "Enemy1.h"
 #include "Player.h"
+#include "Enemy1Fast.h"
+#include "Enemy1Slow.h"
 
 class TestIntegrationEnemy1 : public QObject {
     Q_OBJECT

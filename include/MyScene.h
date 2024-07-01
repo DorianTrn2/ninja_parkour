@@ -24,6 +24,8 @@
 #include "SpikesClass.h"
 #include "MovingPlatformClass.h"
 #include "Enemy1.h"
+#include "Enemy1Fast.h"
+#include "Enemy1Slow.h"
 
 
 
@@ -49,12 +51,21 @@ public:
     bool gameOn = true;
     void addPlatforms(qreal x, qreal y, qreal w, qreal h);
     void addMovingPlatforms(qreal x, qreal y, qreal w, qreal h, qreal speed, qreal xmax);
+    void addSlowEnemies(qreal x, qreal y, qreal xmin, qreal xmax);
+    void addFastEnemies(qreal x, qreal y, qreal xmin, qreal xmax);
     void addEnemies(qreal x, qreal y, qreal xmin, qreal xmax);
     void addSpikes(qreal x, qreal y);
     void setupEnemies();
     MyScene(QGraphicsView* newView, QObject* parent = nullptr);
     void Respawn();
     virtual ~MyScene();
+    void endGame();
+    void movePlatforms();
+    void entitiesLogic();
+    void killEnemy(Enemy1* enem);
+    void playerUpdate();
+    void deathMenu();
+    void winMenu();
 
 private:
     QTimer* timer;

@@ -17,6 +17,8 @@ MOC_DIR = ../build/tests/moc
 
 # Input
 HEADERS += ../include/Enemy1.h \
+           ../include/Enemy1Slow.h \
+           ../include/Enemy1Fast.h \
            ../include/Entity.h \
            ../include/GoalClass.h \
            ../include/MainWindow.h \
@@ -33,6 +35,8 @@ HEADERS += ../include/Enemy1.h \
            TestIntegrationEnemy1.h
 
 SOURCES += ../src/Enemy1.cpp \
+           ../src/Enemy1Fast.cpp \
+           ../src/Enemy1Slow.cpp \
            ../src/Entity.cpp \
            ../src/GoalClass.cpp \
            main.cpp \
