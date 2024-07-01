@@ -18,9 +18,22 @@ struct EntityState {
     qreal y;
 };
 
+struct GravityState {
+    bool collideTop;
+    bool OnFloor;
+    bool KeyUp;
+    int verticalVelocity;
+    qreal x;
+    qreal y;
+    qreal dt;
+    int gravity_const;
+};
+
 int calculateHorizontalVelocity(const EntityState& state);
 bool calculateLookingDirection(const EntityState& state);
 qreal calculateNewPositionX(qreal x, int horizontalVelocity);
+int calculateVerticalVelocity(const GravityState& state);
+qreal calculateNewPositionY(const GravityState& state);
 
 
 

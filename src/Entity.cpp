@@ -27,31 +27,28 @@ Entity::Entity(QGraphicsItem* parent) : QGraphicsPixmapItem(parent){
 
 void Entity::update() {
     collisionDetection();
+    movements();
     gravity();
 
 }
 
 void Entity::gravity(){
-    if(this->collideTop){
-        verticalVelocity = 0;
-    }
-    if(!this->OnFloor){
-        this->setPos(this->x(), this->y()+dt*verticalVelocity);
-        verticalVelocity = verticalVelocity + dt*GRAVITY_CONST*2;
-    }
-    else{
-    }
+    GravityState state = {this->collideTop, this->OnFloor, this->KeyUp, this->verticalVelocity, this->x(), this->y(), this->dt, GRAVITY_CONST}; // Assuming dt = 1 for simplicity
+
+    state.verticalVelocity = calculateVerticalVelocity(state);
+    qreal newPosY = calculateNewPositionY(state);
+
+    this->verticalVelocity=state.verticalVelocity;
+    this->setPos(state.x, newPosY);
 }
 
 
 void Entity::collisionDetection() {
-    // Réinitialisation des indicateurs de collision
     this->OnFloor = false;
     this->collideLeft = false;
     this->collideRight = false;
     this->collideTop = false;
 
-    // Vérification de collision avec les éléments en bas
     for (QGraphicsItem *foot : bottom->collidingItems()) {
         if (dynamic_cast<VoidClass *>(foot) || dynamic_cast<SpikesClass *>(foot)) {
             this->isAlive = false;
@@ -60,14 +57,12 @@ void Entity::collisionDetection() {
 
         PlatformClass *testfoot = dynamic_cast<PlatformClass *>(foot);
         if (testfoot) {
-            // Réglage de la position verticale et des indicateurs de collision
             this->setPos(this->x(), testfoot->globalBoundingRect().y() - 89);
             this->OnFloor = true;
             this->verticalVelocity = 0;
         }
     }
 
-    // Vérification de collision avec les éléments en haut
     for (QGraphicsItem *topItem : top->collidingItems()) {
         PlatformClass *testTop = dynamic_cast<PlatformClass *>(topItem);
         if (testTop) {
@@ -76,7 +71,6 @@ void Entity::collisionDetection() {
         }
     }
 
-    // Vérification de collision avec les éléments à gauche
     for (QGraphicsItem *leftItem : left->collidingItems()) {
         PlatformClass *testLeft = dynamic_cast<PlatformClass *>(leftItem);
         if (testLeft) {
@@ -86,7 +80,6 @@ void Entity::collisionDetection() {
         }
     }
 
-    // Vérification de collision avec les éléments à droite
     for (QGraphicsItem *rightItem : right->collidingItems()) {
         PlatformClass *testRight = dynamic_cast<PlatformClass *>(rightItem);
         if (testRight) {

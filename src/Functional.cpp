@@ -27,3 +27,27 @@ bool calculateLookingDirection(const EntityState& state) {
 qreal calculateNewPositionX(qreal x, int horizontalVelocity) {
     return x + horizontalVelocity;
 }
+
+int calculateVerticalVelocity(const GravityState& state) {
+    if (state.collideTop) {
+        return 0;
+    }
+    if (!state.OnFloor && state.KeyUp) {
+        if (state.verticalVelocity > 0) {
+            return (state.verticalVelocity + state.dt * state.gravity_const * 2) * 0.9;
+        }
+        return state.verticalVelocity + state.dt * state.gravity_const * 2;
+    }
+    if (!state.OnFloor && !state.KeyUp) {
+        return state.verticalVelocity + state.dt * state.gravity_const * 4;
+    }
+    return state.verticalVelocity;
+}
+
+qreal calculateNewPositionY(const GravityState& state) {
+    if (!state.OnFloor) {
+        return state.y + state.dt * state.verticalVelocity;
+    }
+    return state.y;
+}
+

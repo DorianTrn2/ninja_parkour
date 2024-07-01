@@ -36,9 +36,7 @@ void Enemy1::KeyChange(){
 void Enemy1::update(){
     if(isAlive) {
         KeyChange();
-        collisionDetection();
-        movements();
-        gravity();
+        Entity::update();
         animation();
     }
     else{

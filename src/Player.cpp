@@ -10,31 +10,8 @@ this->speed = 20;
 
 
 void Player::update(){
-    Entity::collisionDetection();
-    movements();
-    gravity();
+    Entity::update();
     animation();
-}
-
-void Player::gravity(){
-    if(this->collideTop){
-        verticalVelocity = 0;
-    }
-    if(!this->OnFloor and this->KeyUp){
-        this->setPos(this->x(), this->y()+dt*verticalVelocity);
-        if(verticalVelocity>0) {
-            verticalVelocity = (verticalVelocity + dt * GRAVITY_CONST * 2) * 0.9;
-        }
-        else verticalVelocity = verticalVelocity + dt*GRAVITY_CONST*2;
-
-    }
-    else if(!this->OnFloor and !this->KeyUp){
-        this->setPos(this->x(), this->y()+dt*verticalVelocity);
-        verticalVelocity = verticalVelocity + dt*GRAVITY_CONST*4;
-    }
-
-    else{
-    }
 }
 
 void Player::jump(){
