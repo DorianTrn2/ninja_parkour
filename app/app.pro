@@ -17,6 +17,7 @@ MOC_DIR = ../build/app/moc
 
 # Input
 HEADERS += ../include/Enemy1.h \
+           ../include/Functional.h \
            ../include/Enemy1Slow.h \
            ../include/Enemy1Fast.h \
            ../include/Entity.h \
@@ -29,6 +30,7 @@ HEADERS += ../include/Enemy1.h \
            ../include/SpikesClass.h \
            ../include/VoidClass.h
 SOURCES += ../src/Enemy1.cpp \
+           ../src/Functional.cpp \
            ../src/Enemy1Slow.cpp \
            ../src/Enemy1Fast.cpp \
            ../src/Entity.cpp \
