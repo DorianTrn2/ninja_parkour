@@ -4,6 +4,7 @@ aspect Lag{
 	
 	 LagMetric::define{
 	 #include <chrono>
+	 static unsigned short int displayLag = 0;
 	 }
 
 	LagMetric::before{
@@ -11,9 +12,13 @@ aspect Lag{
 	}
 	
 	LagMetric::after{
-	auto end_chrono = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> float_ms = end_chrono - start;
-	std::cout<<"Lag: "<<float_ms.count()<<"ms."<<std::endl;
+	displayLag++;
+        if (displayLag > 150) { 
+			auto end_chrono = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double, std::milli> float_ms = end_chrono - start;
+			std::cout<<"Lag: "<<float_ms.count()<<"ms."<<std::endl;
+			logFile<<"Lag(ms): "<<float_ms.count()<<std::endl;
+			displayLag=0;
 	}
-
+}
 }

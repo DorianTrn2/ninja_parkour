@@ -15,6 +15,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <string>
+#include <fstream>
 
 #include "Entity.h"
 #include "Player.h"
@@ -26,6 +27,7 @@
 #include "Enemy1.h"
 #include "Enemy1Fast.h"
 #include "Enemy1Slow.h"
+
 
 
 

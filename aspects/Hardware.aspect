@@ -87,8 +87,12 @@ aspect Hardware {
 	HardwareUsage::after{
 		displayCPU_RAM++;
         if (displayCPU_RAM > 150) { 
-            std::cout << getUsedRam() << " KB RAM" << std::endl;
-            std::cout << getUsedCPU() << " % CPU usage\n" << std::endl;
+			int ram = getUsedRam();
+			double cpu = getUsedCPU();
+            std::cout << ram << " KB RAM" << std::endl;
+            std::cout << cpu << " % CPU usage\n" << std::endl;
+			logFile <<"RAM: "<< ram << std::endl;
+            logFile <<"CPU: "<< cpu << std::endl;
             displayCPU_RAM = 0;
         }
 	}
