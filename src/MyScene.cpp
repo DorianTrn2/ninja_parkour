@@ -1,5 +1,8 @@
 #include "../include/MyScene.h"
 
+int __ = std::remove("log.txt");
+std::ofstream logFile("log.txt", std::ios_base::app);
+
 MyScene::MyScene(QGraphicsView* newView, QObject* parent) : QGraphicsScene(parent) {
     this->view = newView;
     QPixmap* platfo = new QPixmap("ressources/textures/brick2.png");

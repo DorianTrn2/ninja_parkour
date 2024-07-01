@@ -50,4 +50,3 @@ qreal calculateNewPositionY(const GravityState& state) {
     }
     return state.y;
 }
-
