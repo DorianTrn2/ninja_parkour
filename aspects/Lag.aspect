@@ -1,0 +1,19 @@
+aspect Lag{
+	
+	pattern "LagMetric" : "void" "MyScene" "update";
+	
+	 LagMetric::define{
+	 #include <chrono>
+	 }
+
+	LagMetric::before{
+	    auto start = std::chrono::high_resolution_clock::now();
+	}
+	
+	LagMetric::after{
+	auto end_chrono = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> float_ms = end_chrono - start;
+	std::cout<<"Lag: "<<float_ms.count()<<"ms."<<std::endl;
+	}
+
+}
