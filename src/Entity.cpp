@@ -5,7 +5,7 @@
 #include "../include/Entity.h"
 #include "../include/PlatformClass.h"
 #include "../include/MovingPlatformClass.h"
-
+#include "../include/Functional.h"
 #include "../include/VoidClass.h"
 #include "../include/SpikesClass.h"
 
@@ -105,22 +105,15 @@ void Entity::jump(){
     }
 }
 void Entity::movements(){
-    if(this->isAlive) {
-        this->setPos(this->x() + horizontalVelocity, this->y());
-        if (this->KeyRight) {
-            horizontalVelocity += 20;
-            lookingDirection = false;
-            if (horizontalVelocity > speed) {
-                horizontalVelocity = speed;
-            }
-        } else if (this->KeyLeft) {
-            horizontalVelocity -= 20;
-            lookingDirection = true;
-            if (horizontalVelocity < -speed) {
-                horizontalVelocity = -speed;
-            }
-        } else horizontalVelocity = 0;
-    }
+    if (!this->isAlive) return;
+
+    EntityState state = {this->isAlive, this->KeyRight, this->KeyLeft, this->horizontalVelocity, this->speed, this->lookingDirection, this->x(), this->y()};
+
+    state.horizontalVelocity = calculateHorizontalVelocity(state);
+    state.lookingDirection = calculateLookingDirection(state);
+    qreal newPosX = calculateNewPositionX(state.x, state.horizontalVelocity);
+    this->lookingDirection = state.lookingDirection;
+    this->setPos(newPosX, state.y);
 }
 
 Entity::~Entity(){
