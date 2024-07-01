@@ -1,0 +1,16 @@
+//
+// Created by doria on 01/06/2022.
+//
+
+#ifndef CPP_QT_TPMINIPROJET_ENEMY1SLOW_H
+#define CPP_QT_TPMINIPROJET_ENEMY1SLOW_H
+#include "Enemy1.h"
+
+
+class Enemy1Slow : public Enemy1{
+public:
+    Enemy1Slow(qreal x, qreal y, qreal xmin, qreal xmax, QGraphicsItem* parent = nullptr);
+};
+
+
+#endif //CPP_QT_TPMINIPROJET_ENEMY1SLOW_H
